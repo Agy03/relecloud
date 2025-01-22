@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}  <!-- Load static here -->
+{% load crispy_forms_tags %}
+
+
+{% block title %}ReleCloud - {{ destination.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ destination.name }}</h1>
+
+<!-- Display the destination image -->
+{% if destination.image %}
+    <img src="{{ destination.image.url }}" alt="{{ destination.name }}" class="img-fluid mb-4">
+{% else %}
+    <img src="{% static 'images/default_destination.jpg' %}" alt="{{ destination.name }}" class="img-fluid mb-4">
+{% endif %}
+
+<p>{{ destination.description }}</p>
+
+<p>Associated cruises:</p>
+<ul class="list-group">
+    {% for cruise in destination.cruises.all %}
+        <a class="list-group-item list-group-item-action" href="{% url 'cruise_detail' cruise.pk %}">{{ cruise.name }}</a>
+    {% endfor %}
+</ul>
+{% endblock %}

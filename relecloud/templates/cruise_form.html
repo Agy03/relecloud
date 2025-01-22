@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}  <!-- Load static here -->
+{% load crispy_forms_tags %}
+
+{% block title %}{% if object %}Edit{% else %}Create{% endif %} Cruise{% endblock %}
+
+{% block content %}
+<h2>{% if object %}Edit{% else %}Create{% endif %} Cruise</h2>
+
+<!-- Display existing cruise image if available -->
+{% if object and object.image %}
+    <img src="{{ object.image.url }}" alt="{{ object.name }}" class="img-fluid mb-4">
+{% else %}
+    <img src="{% static 'images/default_cruise.jpg' %}" alt="Default Image" class="img-fluid mb-4">
+{% endif %}
+
+
+<form method="post" enctype="multipart/form-data">  <!-- Allow file uploads -->
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<a href="{% url 'cruises' %}">Back to Cruises</a>
+{% endblock %}

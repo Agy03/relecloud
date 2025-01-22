@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+ReleCloud - {{ destination.name }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>{{ destination.name }}</h1>
+
+    <!-- Display the destination image -->
+    {% if destination.image %}
+    <img src="{{ destination.image.url }}" alt="{{ destination.name }}" class="img-fluid mb-4">
+{% else %}
+    <img src="{% static 'images/default_destination.jpg' %}" alt="{{ destination.name }}" class="img-fluid mb-4">
+{% endif %}
+
+    <p>{{ destination.description }}</p>
+
+    <h3>Explore Cruises:</h3>
+
+    <div class="row">
+        {% for cruise in destination.cruises.all %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ cruise.name }}</h5>
+                        <p class="card-text">{{ cruise.description|truncatewords:15 }}</p>
+                        <a href="{% url 'cruise_detail' cruise.pk %}" class="btn btn-info">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No cruises available for this destination.</p>
+        {% endfor %}
+    </div>
+    <!-- Buttons to Edit and Delete the destination -->
+    <div class="mb-4">
+        <!-- Edit Button -->
+        <a href="{% url 'destination_edit' destination.pk %}" class="btn btn-warning">Edit Destination</a>
+
+        <!-- Delete Button -->
+        <a href="{% url 'destination_delete' destination.pk %}" class="btn btn-danger" 
+           onclick="return confirm('Are you sure you want to delete this destination?');">
+            Delete Destination
+        </a>
+    </div>
+    
+</div>
+{% endblock %}

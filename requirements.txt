@@ -1,0 +1,11 @@
+Django
+django-crispy-forms
+django-storages
+azure-storage-blob
+crispy-bootstrap4
+sqlparse
+tzdata
+psycopg2-binary
+whitenoise
+Pillow
+gunicorn

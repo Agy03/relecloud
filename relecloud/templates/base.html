@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <title>{% block title %}Galactic Company{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333333; /* Color principal */
+            background-color: #f4f4f4; /* Fondo */
+        }
+
+        /* Header Sticky y Responsive */
+        header {
+            background: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+            padding: 20px; /* Padding más grande inicialmente */
+            text-align: center;
+            position: relative;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease; /* Transición suave */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra */
+        }
+
+        /* Header cuando se hace scroll (se reduce el padding) */
+        header.scrolled {
+            padding: 10px; /* Header más pequeño al hacer scroll */
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            flex-wrap: wrap; /* Asegura que se envuelvan en pantallas pequeñas */
+        }
+
+        nav a {
+            color: #007BFF;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: color 0.3s, background-color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ffffff;
+            background-color: #007BFF;
+        }
+
+        /* Dropdown styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: #007BFF;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #007BFF;
+            color: #ffffff;
+        }
+
+        /* Galactic Background */
+        .galactic-background {
+            background-image: url('https://images.unsplash.com/photo-1512161741214-56a0a93d91ab');
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        main {
+            background: rgba(255, 255, 255, 0.9); 
+            padding: 50px; 
+            border-radius: 10px;  
+            margin-top: 100px; 
+            margin-bottom: 100px; 
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            max-width: 900px;
+            margin: auto;
+            text-align: center;
+            color: #333333;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            color: #333333;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            nav a {
+                font-size: 16px;
+                margin: 5px;
+            }
+
+            main {
+                padding: 20px;
+                max-width: 100%;
+            }
+        }
+
+        /* Blinking title */
+        .blink {
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="blink">Welcome to Relecloud, a Galactic Company</h1>
+        <nav>
+            <a class="nav-link" href="{% url 'index' %}"><i class="fas fa-home"></i> Home</a>
+            <a class="nav-link" href="{% url 'about' %}"><i class="fas fa-info-circle"></i> About Us</a>
+            <a class="nav-link" href="{% url 'info_request' %}"><i class="fas fa-envelope"></i> Request Info</a>
+            
+            <!-- Dropdown for Destinations CRUD -->
+            <div class="dropdown">
+                <a class="nav-link" href="{% url 'destinations' %}"><i class="fas fa-map-marker-alt"></i> Manage Destinations</a>
+                <div class="dropdown-content">
+                    <a class="nav-link" href="{% url 'destination_create' %}">Create Destination</a>
+                    <a class="nav-link" href="{% url 'destinations' %}">View All Destinations</a>
+                </div>
+            </div>
+    
+            <!-- Dropdown for Cruises CRUD -->
+            <div class="dropdown">
+                <a class="nav-link" href="{% url 'cruises' %}"><i class="fas fa-ship"></i> Manage Cruises</a>
+                <div class="dropdown-content">
+                    <a class="nav-link" href="{% url 'cruise_create' %}">Create Cruise</a>
+                    <a class="nav-link" href="{% url 'cruises' %}">View All Cruises</a>
+                </div>
+            </div>
+    
+            <!-- New Link for Reviews -->
+            <a class="nav-link" href="{% url 'reviews' %}"><i class="fas fa-star"></i> Reviews</a> 
+        </nav>
+    </header>    
+
+    <!-- Main Background -->
+    <div class="galactic-background">
+        <main style="
+        margin-bottom: 50px;
+        margin-top: 50px;
+    ">
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Galactic Company. All rights reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS y dependencias -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script para reducir el header al hacer scroll -->
+    <script>
+        window.onscroll = function() {
+            var header = document.querySelector("header");
+            if (window.pageYOffset > 50) {
+                header.classList.add("scrolled");
+            } else {
+                header.classList.remove("scrolled");
+            }
+        };
+    </script>
+</body>
+</html>

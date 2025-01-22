@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+ReleCloud - Expand Your Horizons
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4" style="color: #000000;">Welcome to ReleCloud</h1>
+    <p style="color: #000000;">
+        In a future where space travel is no longer a dream but a reality, ReleCloud is your premier choice for exploring the cosmos. With our first scheduled launch in 2030, we're on the brink of making history. But why wait for the stars to align? 
+    </p>
+    <p style="color: #000000;">
+        Join us as we redefine travel with our luxury space cruises, offering unparalleled experiences for adventure seekers and stargazers alike. Discover breathtaking destinations and sign up for updates on our inaugural flight. 
+    </p>
+    
+    <h2 class="text-center mt-5 mb-4" style="color: #000000;">Explore Our Destinations</h2>
+    <div class="row">
+        {% for destination in destinations %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm border-light mb3">
+                    <!-- Display the destination image -->
+                    {% if destination.image %}
+                        <img src="{{ destination.image.url }}" 
+                             class="card-img-top rounded" 
+                             alt="{{ destination.name }}" 
+                             style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <img src="{% static 'images/default_destination.jpg' %}" 
+                             class="card-img-top rounded" 
+                             alt="{{ destination.name }}" 
+                             style="height: 200px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title" style="color: #000000;">{{ destination.name }}</h5>
+                        <p class="card-text" style="color: #000000;">{{ destination.description|truncatewords:15 }}</p>
+                        <a href="{% url 'destination_detail' destination.pk %}" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center" style="color: #000000;">No destinations available at the moment.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

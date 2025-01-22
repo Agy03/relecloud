@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}  <!-- Load static here -->
+{% load crispy_forms_tags %}
+
+{% block title %}Delete Destination{% endblock %}
+
+{% block content %}
+<h2>Delete Destination</h2>
+
+<!-- Display destination image -->
+{% if destination.image %}
+    <img src="{{ destination.image.url }}" alt="{{ destination.name }}" class="img-fluid mb-4">
+{% else %}
+    <img src="{% static 'images/default_destination.jpg' %}" alt="{{ destination.name }}" class="img-fluid mb-4">
+{% endif %}
+
+<p>Are you sure you want to delete "{{ destination.name }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+</form>
+<a href="{% url 'destinations' %}">Cancel</a>
+{% endblock %}

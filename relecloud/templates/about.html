@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+ReleCloud - About
+{% endblock title %}
+
+{% block content %}
+
+<!-- Admin Information Section -->
+<div class="admin-info mt-5">
+    <h2 class="fade-in">Admin Information</h2>
+    <p class="slide-in"><strong>Name:</strong> Alberto</p>
+    <p class="slide-in"><strong>Password:</strong> 1234</p>
+</div>
+
+<h1 class="fade-in">About ReleCloud</h1>
+<p class="slide-in">
+    Founded in 2021, ReleCloud is a visionary company based in Redmond, WA, with a mission that goes beyond the clouds—our sights are set on the stars! Specializing in both luxury and adventure space tourism, we offer unparalleled experiences for those who dream of exploring the cosmos.
+</p>
+
+<!-- Section to display three random cruises -->
+<div class="cruises-container">
+    <h2 class="fade-in">Our Exclusive Cruises</h2>
+    <div class="cruises">
+        {% for cruise in cruises %}
+        <div class="cruise">
+            {% if cruise.image %}
+                <img src="{{ cruise.image.url }}" alt="{{ cruise.name }}" class="animate-spaceship" style="height: 200px; object-fit: cover;">
+            {% else %}
+                <img src="{% static 'images/default_cruise.jpg' %}" alt="{{ cruise.name }}" class="animate-spaceship" style="height: 200px; object-fit: cover;">
+            {% endif %}
+            <p class="cruise-info">{{ cruise.name }}</p>
+            <a href="{% url 'cruise_detail' cruise.pk %}" class="btn btn-primary">View Details</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<p class="fade-in">
+    ReleCloud offers a fleet of luxurious spacecrafts designed for your comfort and safety. Each of our space cruises provides an unforgettable experience, complete with fine dining, private cabins, and breathtaking views of space.
+</p>
+
+<!-- Integrated CSS styles -->
+<style>
+    /* General Animations */
+    .fade-in {
+        opacity: 0;
+        animation: fadeIn 2s forwards;
+    }
+
+    .slide-in {
+        opacity: 0;
+        transform: translateX(-100%);
+        animation: slideIn 1.5s forwards;
+    }
+
+    @keyframes fadeIn {
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideIn {
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* Cruises container */
+    .cruises-container {
+        margin-top: 40px;
+    }
+
+    /* Cruises section styling */
+    .cruises {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .cruise {
+        text-align: center;
+        width: 250px;
+        margin: 20px;
+    }
+
+    /* Spaceship image animation */
+    .animate-spaceship {
+        animation: float 4s infinite ease-in-out;
+        transition: transform 0.3s ease;
+    }
+
+    .animate-spaceship:hover {
+        transform: scale(1.05);
+    }
+
+    .card-img-top {
+        border-radius: 150px; 
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    .cruise-info {
+        margin-top: 10px;
+        font-size: 18px;
+        color: #333;
+    }
+
+    /* Book now button */
+    .book-now-container {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .book-now-btn {
+        padding: 15px 30px;
+        font-size: 20px;
+        background-color: #007BFF;
+        border: none;
+        border-radius: 50px;
+        transition: background-color 0.3s;
+    }
+
+    .book-now-btn:hover {
+        background-color: #0056b3;
+    }
+    
+    /* Admin Info Section */
+    .admin-info {
+        margin-top: 40px;
+        color: #000000;
+    }
+</style>
+
+{% endblock content %}

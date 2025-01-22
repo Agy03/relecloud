@@ -1,0 +1,44 @@
+from django.core.mail import send_mail
+from django.urls import reverse_lazy
+from django.views import generic
+from django.contrib.messages.views import SuccessMessageMixin
+from .forms import InfoRequestForm
+from .models import InfoRequest
+
+class InfoRequestCreate(SuccessMessageMixin, generic.CreateView):
+    template_name = 'info_request_create.html'
+    model = InfoRequest
+    form_class = InfoRequestForm
+    success_url = reverse_lazy('index')
+    success_message = 'Thank you, %(name)s! A confirmation email has been sent to %(email)s.'
+
+    def form_valid(self, form):
+        # Save the form to create the InfoRequest object
+        response = super().form_valid(form)
+
+        # Get the cleaned data from the form
+        name = form.cleaned_data['name']
+        email = form.cleaned_data['email']
+        message = form.cleaned_data['message']
+
+        # Send a confirmation email
+        subject = "Request Confirmation - ReleCloud"
+        email_message = (
+            f"Hello {name},\n\n"
+            f"Thank you for reaching out to us. Here’s your message:\n\n"
+            f"{message}\n\n"
+            f"We will contact you soon.\n\n"
+            f"Best regards,\nReleCloud Team"
+        )
+        
+        try:
+            send_mail(
+                subject,
+                email_message,
+                'your_email@gmail.com',  # Replace with your Gmail address
+                [email],  # Recipient's email
+            )
+        except Exception as e:
+            print(f"Error sending email: {e}")  # Log the error for debugging
+
+        return response

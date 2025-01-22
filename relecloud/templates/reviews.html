@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+ReleCloud - Reviews
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4" style="color: #000000;">Customer Reviews</h1>
+
+    <h2 class="text-center mt-5 mb-4" style="color: #000000;">Add a Review</h2>
+    <div class="row">
+        <!-- Form to select a destination and cruise to review -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-light mb-3">
+                <div class="card-body">
+                    <h5 class="card-title" style="color: #000000;">Select a Destination</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="destination">Choose a Destination:</label>
+                            <select name="destination" id="destination" class="form-control">
+                                {% for destination in destinations %}
+                                    <option value="{{ destination.id }}">{{ destination.name }}</option>
+                                {% empty %}
+                                    <option>No destinations available</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <h5 class="mt-4" style="color: #000000;">Select a Cruise</h5>
+                        <div class="form-group">
+                            <label for="cruise">Choose a Cruise:</label>
+                            <select name="cruise" id="cruise" class="form-control">
+                                {% for cruise in cruises %}
+                                    <option value="{{ cruise.id }}">{{ cruise.name }}</option>
+                                {% empty %}
+                                    <option>No cruises available</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <h5 class="mt-4" style="color: #000000;">Submit a Review</h5>
+                        <div class="form-group">
+                            <label for="user_name">Your Name:</label>
+                            <input type="text" name="user_name" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rating">Rating:</label>
+                            <select name="rating" class="form-control" required>
+                                <option value="1">1 Star</option>
+                                <option value="2">2 Stars</option>
+                                <option value="3">3 Stars</option>
+                                <option value="4">4 Stars</option>
+                                <option value="5">5 Stars</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="comment">Your Comment:</label>
+                            <textarea name="comment" class="form-control" rows="3" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-3">Submit Review</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="text-center mt-5 mb-4" style="color: #000000;">Existing Reviews</h2>
+    
+    <h3 class="mt-4" style="color: #000000;">Reviews for Destinations</h3>
+    <div class="row">
+        {% for destination in destinations %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm border-light mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title" style="color: #000000;">{{ destination.name }}</h5>
+                        <p class="card-text" style="color: #000000;">{{ destination.description|truncatewords:15 }}</p>
+                        <p><strong>Reviews:</strong></p>
+                        <ul>
+                            {% for review in destination.reviews.all %}
+                                <li>
+                                    <strong>{{ review.user_name }}</strong> ({{ review.rating }} stars)<br>
+                                    {{ review.comment }}
+                                </li>
+                            {% empty %}
+                                <li>No reviews yet for this destination.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center" style="color: #000000;">No destinations available at the moment.</p>
+        {% endfor %}
+    </div>
+
+    <h3 class="mt-4" style="color: #000000;">Reviews for Cruises</h3>
+    <div class="row">
+        {% for cruise in cruises %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm border-light mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title" style="color: #000000;">{{ cruise.name }}</h5>
+                        <p class="card-text" style="color: #000000;">{{ cruise.description|truncatewords:15 }}</p>
+                        <p><strong>Reviews:</strong></p>
+                        <ul>
+                            {% for review in cruise.reviews.all %}
+                                <li>
+                                    <strong>{{ review.user_name }}</strong> ({{ review.rating }} stars)<br>
+                                    {{ review.comment }}
+                                </li>
+                            {% empty %}
+                                <li>No reviews yet for this cruise.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center" style="color: #000000;">No cruises available at the moment.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
